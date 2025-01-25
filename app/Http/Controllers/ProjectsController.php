@@ -33,5 +33,9 @@ class ProjectsController extends Controller
         return redirect()->route('dashboard')->with('success', 'Projeto criado com sucesso!');
     }
 
-
+    public function destroy($id){
+        $project = Projects::findOrFail($id);
+        $project->delete();
+        return redirect()->route('dashboard')->with('success', 'Projeto deletado com sucesso!');
+    }
 }
