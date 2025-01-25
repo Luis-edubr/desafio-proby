@@ -1,60 +1,51 @@
 @extends('layouts.dashboard')
 
 @section('content')
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <strong>Lista de Dados</strong>
+                <a href="{{ route('dashboard.create') }}" class="btn btn-light btn-sm">
+                    <i class="bi bi-plus"></i> Novo Projeto
 
-<div class="container mt-4">
-  <div class="card">
-    <div class="card-header bg-primary text-white">
-      <strong>Lista de Dados</strong>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Status</th>
+                                <th>Data de Criação</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($projects as $project)
+                                <tr>
+                                    <td>{{ $project->name }}</td>
+                                    <td>{{ $project->description }}</td>
+                                    <td>{{ $project->status }}</td>
+                                    <td>{{ $project->start_date }}</td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm me-1">Visualizar</button>
+                                        <button class="btn btn-warning btn-sm me-1">Editar</button>
+
+                                        <form action="{{ route('dashboard.destroy', $project->id) }}" method="POST"
+                                            style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            {{-- Precisa add um JS pra aparecer um warning antes de deixar excluir --}}
+                                            <button class="btn btn-danger btn-sm" type="submit">Excluir</button> 
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-striped table-hover">
-          <thead class="table-dark">
-            <tr>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>João Silva</td>
-              <td>joao@email.com</td>
-              <td>Ativo</td>
-              <td>
-                <button class="btn btn-info btn-sm me-1">Visualizar</button>
-                <button class="btn btn-warning btn-sm me-1">Editar</button>
-                <button class="btn btn-danger btn-sm">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Maria Santos</td>
-              <td>maria@email.com</td>
-              <td>Inativo</td>
-              <td>
-                <button class="btn btn-info btn-sm me-1">Visualizar</button>
-                <button class="btn btn-warning btn-sm me-1">Editar</button>
-                <button class="btn btn-danger btn-sm">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Carlos Oliveira</td>
-              <td>carlos@email.com</td>
-              <td>Ativo</td>
-              <td>
-                <button class="btn btn-info btn-sm me-1">Visualizar</button>
-                <button class="btn btn-warning btn-sm me-1">Editar</button>
-                <button class="btn btn-danger btn-sm">Excluir</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 @endsection
