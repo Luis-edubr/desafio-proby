@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -37,17 +36,18 @@
         @endisset
 
         <!-- Page Content -->
- <main>
-    {{ $slot }}
-</main>
-</div>
+        <main>
+            {{ $slot }}
+        </main>
+    </div>
 
-<script>
-    @if (session('success'))
-        toastr.success("{{ session('success') }}");
-    @elseif (session('error'))
-        toastr.error("{{ session('error') }}");
-    @endif
-</script>
+    <script>
+        @if (session('success'))
+            toastr.success("{{ session('success') }}");
+        @elseif (session('error'))
+            toastr.error("{{ session('error') }}");
+        @endif
+    </script>
 </body>
+
 </html>
