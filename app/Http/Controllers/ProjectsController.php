@@ -21,12 +21,17 @@ class ProjectsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'nullable',
-            'start_date' => 'required|date_format:Y-m-d',
-            'status' => 'required|in:Pendente,Em andamento,Concluído',
+            'Nome' => 'required', 'max:255', 'string', 'regex:/[a-zA-Z]/',
+            'Descrição' => 'nullable',
+            'Data' => 'required|date_format:Y-m-d',
+            'Status' => 'required|in:Pendente,Em andamento,Concluído',
         ]);
 
+        $request['Nome'] = $request['name'];
+        $request['Descrição'] = $request['description'];
+        $request['Data de início'] = $request['start_date'];
+        $request['Status'] = $request['status'];
+        
         Projects::create($request->all());
 
         return redirect()->route('dashboard')->with('success', 'Projeto criado com sucesso!');
@@ -47,10 +52,10 @@ class ProjectsController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'nullable',
-            'start_date' => 'required|date_format:Y-m-d',
-            'status' => 'required|in:Pendente,Em andamento,Concluído',
+            'Nome' => ['required', 'max:255', 'string', 'regex:/[a-zA-Z]/'],
+            'Descrição' => 'nullable',
+            'Data' => 'required|date_format:Y-m-d',
+            'Status' => 'required|in:Pendente,Em andamento,Concluído',
         ]);
 
         $project = Projects::findOrFail($id);
@@ -59,7 +64,8 @@ class ProjectsController extends Controller
         return redirect()->route('dashboard')->with('success', 'Projeto atualizado com sucesso!');
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $project = Projects::findOrFail($id);
         $project->delete();
         return redirect()->route('dashboard')->with('success', 'Projeto deletado com sucesso!');
