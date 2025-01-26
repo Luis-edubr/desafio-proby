@@ -4,7 +4,7 @@
     <div class="container mt-4">
         <div class="card">
             <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                <strong>Lista de Dados</strong>
+                <strong>Lista de Projetos</strong>
                 <a href="{{ route('dashboard.create') }}" class="btn btn-light btn-sm">
                     <i class="bi bi-plus"></i> Novo Projeto
 
@@ -29,8 +29,8 @@
                                     <td>{{ $project->status }}</td>
                                     <td>{{ $project->start_date }}</td>
                                     <td>
-                                        <button class="btn btn-info btn-sm me-1">Visualizar</button>
-                                        <button class="btn btn-warning btn-sm me-1">Editar</button>
+                                        <a href="{{ route('dashboard.show', $project->id) }}"><button class="btn btn-info btn-sm me-1">Visualizar</button></a>
+                                        <a href="{{ route('dashboard.edit', $project->id) }}"><button class="btn btn-warning btn-sm me-1">Editar</button></a>
 
                                         <form action="{{ route('dashboard.destroy', $project->id) }}" method="POST"
                                             style="display: inline;">
