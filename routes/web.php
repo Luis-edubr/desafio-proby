@@ -8,8 +8,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [ProjectsController::class, 'index'])->name('dashboard');
 
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/visualizar/{id}', [ProjectsController::class, 'show'])->name('show');
         Route::get('/create', [ProjectsController::class, 'create'])->name('create');
         Route::post('/store', [ProjectsController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [ProjectsController::class, 'edit'])->name('edit');
+        Route::patch('/update/{id}', [ProjectsController::class, 'update'])->name('update');
         Route::delete('/{id}', [ProjectsController::class, 'destroy'])->name('destroy');
     });
 
