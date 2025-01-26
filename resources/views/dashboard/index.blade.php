@@ -6,7 +6,7 @@
             <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                 <strong>Lista de Projetos</strong>
                 <a href="{{ route('dashboard.create') }}" class="btn btn-light btn-sm">
-                    <i class="bi bi-plus"></i> Novo Projeto
+                    <i class="bi bi-plus"></i> Novo Projeto</a>
 
             </div>
             <div class="card-body">
@@ -26,24 +26,40 @@
                                 <tr>
                                     <td>{{ $project->name }}</td>
                                     <td>{{ $project->description }}</td>
-                                    <td>{{ $project->status }}</td>
+                                    <td
+                                        class="
+                                    @if ($project->status == 'Pendente') bg-danger text-white
+                                    @elseif ($project->status == 'Em Andamento') bg-warning text-white
+                                    @elseif ($project->status == 'Concluído') bg-success text-white @endif
+                                ">
+                                        {{ $project->status }}</td>
                                     <td>{{ $project->start_date }}</td>
                                     <td>
-                                        <a href="{{ route('dashboard.show', $project->id) }}"><button class="btn btn-info btn-sm me-1">Visualizar</button></a>
-                                        <a href="{{ route('dashboard.edit', $project->id) }}"><button class="btn btn-warning btn-sm me-1">Editar</button></a>
+                                        <a href="{{ route('dashboard.show', $project->id) }}"><button
+                                                class="btn btn-info btn-sm me-1">Visualizar</button></a>
+                                        <a href="{{ route('dashboard.edit', $project->id) }}"><button
+                                                class="btn btn-warning btn-sm me-1">Editar</button></a>
 
                                         <form action="{{ route('dashboard.destroy', $project->id) }}" method="POST"
                                             style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             {{-- Precisa add um JS pra aparecer um warning antes de deixar excluir --}}
-                                            <button class="btn btn-danger btn-sm" type="submit">Excluir</button> 
+                                            <button class="btn btn-danger btn-sm" type="submit">Excluir</button>
                                         </form>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    <div>
+                        Exibindo {{ $projects->firstItem() }} a {{ $projects->lastItem() }} de
+                        {{ $projects->total() }} registros
+                    </div>
+                    <nav aria-label="Paginação">
+                        {{ $projects->links('vendor.pagination.default-pagination') }}
+                    </nav>
+
                 </div>
             </div>
         </div>
