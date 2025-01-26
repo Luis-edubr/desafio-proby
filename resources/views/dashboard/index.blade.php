@@ -44,8 +44,7 @@
                                             style="display: inline;">
                                             @csrf
                                             @method('DELETE')
-                                            {{-- Precisa add um JS pra aparecer um warning antes de deixar excluir --}}
-                                            <button class="btn btn-danger btn-sm" type="submit">Excluir</button>
+                                            <button class="btn btn-danger btn-sm delete" type="submit">Excluir</button>
                                         </form>
                                     </td>
                                 </tr>

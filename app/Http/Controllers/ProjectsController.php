@@ -9,7 +9,9 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-        $projects = Projects::paginate(5);
+        $projects = Projects::orderByRaw("FIELD(Status, 'Pendente', 'Em andamento', 'Concluído')")
+        ->paginate(5);
+
         return view('dashboard.index', compact('projects'));
     }
 
