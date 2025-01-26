@@ -22,14 +22,14 @@ $(document).ready(function(){
         $(this).val(input);
     });
 
-    $('#projectCreateForm').on('submit', function(e) {
+    $('#projectForm').on('submit', function(e) {
         var date = $('#start_date').val();
         var year = parseInt(date.split('-')[0]);
         var currentYear = new Date().getFullYear();
 
         if (year < currentYear || year > 2025) {
             e.preventDefault();
-            toastr.error('O ano deve ser maior ou igual ao ano atual e menor ou igual a 2025.');
+            toastr.error('O ano deve ser maior ou igual ao ano atual.');
         }
         var regex = /^\d{4}-\d{2}-\d{2}$/;
         if (!regex.test(date)) {
