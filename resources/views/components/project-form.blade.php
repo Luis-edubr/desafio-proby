@@ -1,6 +1,6 @@
 @props(['action', 'method' => 'POST', 'project' => null, 'readonly' => false])
 
-<form action="{{ $action }}" method="POST" id="projectForm">
+<form action="{{ $action }}" method="POST" id="projectForm" enctype="multipart/form-data">
     @csrf
     @if (in_array($method, ['PUT', 'PATCH', 'DELETE']))
         @method($method)
@@ -21,9 +21,12 @@
     <div class="mb-3">
         <label for="Status" class="form-label">Status</label>
         <select class="form-select" id="Status" name="Status" {{ $readonly ? 'disabled' : '' }}>
-            <option value="Pendente" {{ old('Status', $project->status ?? '') == 'Pendente' ? 'selected' : '' }}>Pendente</option>
-            <option value="Em andamento" {{ old('Status', $project->status ?? '') == 'Em andamento' ? 'selected' : '' }}>Em andamento</option>
-            <option value="Concluído" {{ old('Status', $project->status ?? '') == 'Concluído' ? 'selected' : '' }}>Concluído</option>
+            <option value="Pendente" {{ old('Status', $project->status ?? '') == 'Pendente' ? 'selected' : '' }}>
+                Pendente</option>
+            <option value="Em andamento"
+                {{ old('Status', $project->status ?? '') == 'Em andamento' ? 'selected' : '' }}>Em andamento</option>
+            <option value="Concluído" {{ old('Status', $project->status ?? '') == 'Concluído' ? 'selected' : '' }}>
+                Concluído</option>
         </select>
     </div>
 
@@ -33,7 +36,11 @@
             value="{{ old('Data de início', $project->start_date ?? '') }}" {{ $readonly ? 'readonly' : '' }} required>
     </div>
 
-    @unless($readonly)
+    @unless ($readonly)
+        <div class="mb-3">
+            <label for="Documento" class="form-label">Documento</label>
+            <input type="file" class="form-control" id="Documento" name="Documento" {{ $readonly ? 'disabled' : '' }}>
+        </div>
         <div class="text-end">
             <button type="submit" class="btn btn-success">Salvar</button>
             <a href="{{ route('dashboard') }}" class="btn btn-secondary">Cancelar</a>
