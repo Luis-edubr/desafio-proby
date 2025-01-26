@@ -44,6 +44,36 @@ class ProjectsSeeder extends Seeder
                 'start_date' => '2023-05-01',
                 'status' => 'Em Andamento',
             ],
+            [
+                'name' => 'Projeto 6',
+                'description' => 'Descrição do Projeto 6',
+                'start_date' => '2023-06-01',
+                'status' => 'Em Andamento',
+            ],
+            [
+                'name' => 'Projeto 7',
+                'description' => 'Descrição do Projeto 7',
+                'start_date' => '2023-07-01',
+                'status' => 'Em Andamento',
+            ],
+            [
+                'name' => 'Projeto 8',
+                'description' => 'Descrição do Projeto 8',
+                'start_date' => '2023-08-01',
+                'status' => 'Em Andamento',
+            ],
+            [
+                'name' => 'Projeto 9',
+                'description' => 'Descrição do Projeto 9',
+                'start_date' => '2023-09-01',
+                'status' => 'Em Andamento',
+            ],
+            [
+                'name' => 'Projeto 10',
+                'description' => 'Descrição do Projeto 10',
+                'start_date' => '2023-10-01',
+                'status' => 'Em Andamento',
+            ],
         ]);
     }
 }
