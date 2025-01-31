@@ -18,6 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::get('/documents/download/{id}', [DocumentsController::class, 'download'])->name('documents.download');
+    Route::delete('/documents/{id}', [DocumentsController::class, 'destroy'])->name('documents.destroy');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
