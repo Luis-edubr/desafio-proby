@@ -7,60 +7,60 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+Bem vindo ao Desafio Proby! A plataforma de gerenciamento de projetos solicitada como desafio pra uma vaga de dev na Startup ProbY!
+
+Pra poder rodar o projeto na sua máquina, siga os seguintes passos:
+
+## Clone
+
+Rode o seguinte comando no terminal caso use o git normal: git clone https://github.com/Luis-edubr/desafio-proby.git
+
+Caso prefira usar o GitHub CLI, basta rodar: gh repo clone Luis-edubr/desafio-proby
+
+## Instalando e fazendo build das dependências 
+
+Já tendo feito o download do repositório na sua máquina, navegue até ele (por ex: cd desafio-proby/)
+
+E rode os seguintes comandos no terminal:
+
+npm install
+composer install
+npm run build
+php artisan migrate:fresh
+php artisan db:seed
+
+## Feito isso, basta fazer somente mais 1 mudança
+
+Afim de não precisar criar uma classe que gerenciasse o e-mail e manter a simplicidade e o layout padrão de emails do laravel,
+achei por melhor traduzir os textos de email do laravel de maneira manual. Alguns deles já estão dentro do seu repositório,
+mas outros você vai precisar modificar da seguinte maneira:
+
+Acesse dentro do projeto a pasta vendor (não a que fica dentro de resources/views, mas a que está na raiz do projeto) e navegue
+pra dentro de laravel/framework/src/Illuminate/Auth/Notifications e acesse o arquivo ResetPassword.php.
+
+Feito isso, basta colar o seguinte código dentro do método buildMailMessage:
+
+        return (new MailMessage)
+            ->subject(Lang::get('Notificação de Redefinição de Senha'))
+            ->line(Lang::get('Você está recebendo este e-mail porque recebemos uma solicitação de redefinição de senha para sua conta.'))
+            ->action(Lang::get('Redefinir Senha'), $url)
+            ->line(Lang::get('Este link de redefinição de senha expirará em :count minutos.', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))
+            ->line(Lang::get('Se você não solicitou uma redefinição de senha, nenhuma ação adicional é necessária.'));
+
+Dessa forma, o email de recuperação de senha estará todo em pt-BR. O outro arquivo (VerifyEmail.php) pode deixar como está, pois não vai ser relevante pra essa aplicação.
+
+## Último comando
+
+Utilize o terminal pra rodar os seguintes comandos:
+
+chmod -R 775
+chmod -R 775 bootstrap/cache
+
+Faça isso pra que a aplicação possa gerenciar com eficácia o upload e delete de arquivos.
+
+Agora basta fazer bom uso da plataforma!
+
