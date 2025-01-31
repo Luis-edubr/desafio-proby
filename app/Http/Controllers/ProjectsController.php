@@ -27,8 +27,8 @@ class ProjectsController extends Controller
             'Nome' => 'required|max:255|string|regex:/[a-zA-Z]/',
             'Descrição' => 'nullable',
             'Data' => 'required|date_format:Y-m-d',
-            'Status' => 'required|in:Pendente,Em andamento,Concluído',
-            'Documento' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx,odt,odp|max:2048',
+            'Documento' => 'nullable|array',
+            'Documento.*' => 'file|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx,odt,odp|max:2048',
 
         ]);
 
@@ -41,10 +41,13 @@ class ProjectsController extends Controller
 
         if ($request->hasFile('Documento')) {
             $documentsController = new DocumentsController();
-            $document = $documentsController->store($request->file('Documento'), $project->id);
 
-            if (isset($document['error'])) {
-                return redirect()->route('dashboard')->with('error', $document['error']);
+            foreach ($request->file('Documento') as $file) {
+                $document = $documentsController->store($file, $project->id);
+
+                if (isset($document['error'])) {
+                    return redirect()->route('dashboard')->with('error', $document['error']);
+                }
             }
         }
 
@@ -62,20 +65,40 @@ class ProjectsController extends Controller
     public function edit($id)
     {
         $project = Projects::findOrFail($id);
-        return view('dashboard.edit', compact('project'));
+        $documents = Documents::where('project_id', $id)->get();
+        return view('dashboard.edit', compact('project', 'documents'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'Nome' => ['required', 'max:255', 'string', 'regex:/[a-zA-Z]/'],
+            'Nome' => 'required|max:255|string|regex:/[a-zA-Z]/',
             'Descrição' => 'nullable',
             'Data' => 'required|date_format:Y-m-d',
             'Status' => 'required|in:Pendente,Em andamento,Concluído',
+            'Documento' => 'nullable|array',
+            'Documento.*' => 'file|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx,odt,odp|max:2048',
         ]);
 
         $project = Projects::findOrFail($id);
-        $project->update($request->all());
+        $project->update([
+            'name' => $request->input('Nome'),
+            'description' => $request->input('Descrição'),
+            'start_date' => $request->input('Data'),
+            'status' => $request->input('Status'),
+        ]);
+
+        if ($request->hasFile('Documento')) {
+            $documentsController = new DocumentsController();
+
+            foreach ($request->file('Documento') as $file) {
+                $document = $documentsController->store($file, $project->id);
+
+                if (isset($document['error'])) {
+                    return redirect()->route('dashboard')->with('error', $document['error']);
+                }
+            }
+        }
 
         return redirect()->route('dashboard')->with('success', 'Projeto atualizado com sucesso!');
     }
@@ -83,6 +106,11 @@ class ProjectsController extends Controller
     public function destroy($id)
     {
         $project = Projects::findOrFail($id);
+        $documents = Documents::where('project_id', $id)->get();
+        $documentsController = new DocumentsController();
+        foreach ($documents as $document) {
+            $documentsController->destroy($document->id);
+        }
         $project->delete();
         return redirect()->route('dashboard')->with('success', 'Projeto deletado com sucesso!');
     }
