@@ -1,6 +1,7 @@
 @props([
     'documents' => [],
     'title' => 'Lista de Documentos',
+    'readonly' => false
 ])
 <div class="table-responsive">
     <table class="table table-striped table-hover">
@@ -29,14 +30,22 @@
                     <td>{{ $document->file_name }}</td>
                     <td>{{ $document->created_at }}</td>
                     <td>
-                        <a href="{{ route('documents.download', $document->id) }}"class="btn btn-success btn-sm">Download</a>                  
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="4" class="text-center">Nenhum documento encontrado.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-</div>
+                        <a
+                            href="{{ route('documents.download', $document->id) }}"class="btn btn-success btn-sm">Download</a>
+                        @unless ($readonly)
+                            <form action="{{ route('documents.destroy', $document->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm delete">Excluir</button>
+                            </form>
+                        @endunless
+                        </td>
+                    </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center">Nenhum documento encontrado.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>

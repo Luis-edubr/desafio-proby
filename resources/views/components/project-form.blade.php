@@ -38,12 +38,15 @@
 
     @unless ($readonly)
         <div class="mb-3">
-            <label for="Documento" class="form-label">Documento</label>
-            <input type="file" class="form-control" id="Documento" name="Documento" {{ $readonly ? 'disabled' : '' }}>
+            <label for="Documento" id="fileInputsContainer" class="form-label">Documentos</label>
+            <input type="file" class="form-control" id="Documento" name="Documento[]" multiple {{ $readonly ? 'disabled' : '' }}>
+            <p class="form-text text-muted">Você pode selecionar múltiplos arquivos.</p>
         </div>
+            <button type="button" class="btn btn-outline-secondary mb-2" id="addFileInput">Adicionar outro arquivo</button>
         <div class="text-end">
             <button type="submit" class="btn btn-success">Salvar</button>
-            <a href="{{ route('dashboard') }}" class="btn btn-secondary">Cancelar</a>
+            
         </div>
     @endunless
+    <a href="{{ route('dashboard') }}" class="btn btn-secondary">Cancelar</a>
 </form>
