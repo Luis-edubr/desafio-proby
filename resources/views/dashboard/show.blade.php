@@ -13,7 +13,7 @@
                 <strong>Documentos do Projeto</strong>
             </div><br />
             <div class="card-body">
-                <x-documents :documents="$documents" />
+                <x-documents :documents="$documents" readonly />
             </div>
         </div>
     </div>
