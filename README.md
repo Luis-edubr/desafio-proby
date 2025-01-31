@@ -85,6 +85,8 @@ Feito isso, basta colar o seguinte código dentro do método buildMailMessage:
 
 Dessa forma, o email de recuperação de senha estará todo em pt-BR. O outro arquivo (VerifyEmail.php) pode deixar como está, pois não vai ser relevante pra essa aplicação.
 
+Não se esqueça que, pra funcionar o fluxo de email, será necessário alterar o arquivo .env com credenciais de SMTP pra envio de e-mail. 
+
 ## Último comando
 
 Utilize o terminal pra rodar os seguintes comandos:
